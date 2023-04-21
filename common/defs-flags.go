@@ -36,13 +36,13 @@ const (
 	FlagWorkflowExecutionTimeoutDefinition = "Timeout (in seconds) for a WorkflowExecution, including retries and `ContinueAsNew` tasks."
 	FlagWorkflowTaskTimeoutDefinition = "Start-to-close timeout for a Workflow Task (in seconds)."
 	FlagCronScheduleDefinition = "Optional Cron Schedule for the Workflow. Cron spec is formatted as: \n" +
-		"\t┌───────────── minute (0 - 59) \n" +
-		"\t│ ┌───────────── hour (0 - 23) \n" +
-		"\t│ │ ┌───────────── day of the month (1 - 31) \n" +
-		"\t│ │ │ ┌───────────── month (1 - 12) \n" +
-		"\t│ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday) \n" +
-		"\t│ │ │ │ │ \n" +
-		"\t* * * * *"
+	"\t┌───────────── minute (0 - 59) \n" +
+	"\t│ ┌───────────── hour (0 - 23) \n" +
+	"\t│ │ ┌───────────── day of the month (1 - 31) \n" +
+	"\t│ │ │ ┌───────────── month (1 - 12) \n" +
+	"\t│ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday) \n" +
+	"\t│ │ │ │ │ \n" +
+	"\t* * * * *"
 	FlagWorkflowIdReusePolicyDefinition = "Allows the same Workflow Id to be used in a new Workflow Execution. Options are: AllowDuplicate, AllowDuplicateFailedOnly, RejectDuplicate, TerminateIfRunning."
 	FlagInputDefinition = "Optional JSON input to provide to the Workflow. Pass \"null\" for null values."
 	FlagInputFileDefinition = "Passes optional input for the Workflow from a JSON file. If there are multiple JSON files, concatenate them and separate by space or newline. Input from the command line will overwrite file input."
