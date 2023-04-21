@@ -261,6 +261,17 @@ func (b *clientFactory) createTLSConfig(c *cli.Context) (*tls.Config, error) {
 
 		return tlsConfig, nil
 	}
+	// If we want to set the TLS server name for DNS resolution as host from the given address
+	if c.Bool(common.FlagEnableTLS) {
+		hostPort := c.String(common.FlagAddress)
+		if hostPort == "" {
+			hostPort = common.LocalHostPort
+		}
+		// Ignoring error as we'll fail to dial anyway, and that will produce a meaningful error
+		host, _, _ = net.SplitHostPort(hostPort)
+		tlsConfig := auth.NewTLSConfigForServer(host, !disableHostNameVerification)
+		return tlsConfig, nil
+	}
 	// If we are given a server name, set the TLS server name for DNS resolution
 	if serverName != "" {
 		host = serverName
