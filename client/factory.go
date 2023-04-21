@@ -216,6 +216,11 @@ func (b *clientFactory) createTLSConfig(c *cli.Context) (*tls.Config, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unable to read TLS disable host verification flag: %w", err)
 	}
+	enableTLSS := c.String(common.FlagEnableTLS)
+	enableTLS, err := strconv.ParseBool(enableTLSS)
+	if err != nil {
+		return nil, fmt.Errorf("unable to read TLS disable host verification flag: %w", err)
+	}
 
 	serverName := c.String(common.FlagTLSServerName)
 
@@ -261,20 +266,20 @@ func (b *clientFactory) createTLSConfig(c *cli.Context) (*tls.Config, error) {
 
 		return tlsConfig, nil
 	}
-	// If we want to set the TLS server name for DNS resolution as host from the given address
-	if c.Bool(common.FlagEnableTLS) {
+	// If we are given a server name, set the TLS server name for DNS resolution
+	if serverName != "" {
+		host = serverName
+		tlsConfig := auth.NewTLSConfigForServer(host, !disableHostNameVerification)
+		return tlsConfig, nil
+	}
+	// If we are given a TLS flag, set the TLS server name from address for DNS resolution
+	if enableTLS {
 		hostPort := c.String(common.FlagAddress)
 		if hostPort == "" {
 			hostPort = common.LocalHostPort
 		}
 		// Ignoring error as we'll fail to dial anyway, and that will produce a meaningful error
 		host, _, _ = net.SplitHostPort(hostPort)
-		tlsConfig := auth.NewTLSConfigForServer(host, !disableHostNameVerification)
-		return tlsConfig, nil
-	}
-	// If we are given a server name, set the TLS server name for DNS resolution
-	if serverName != "" {
-		host = serverName
 		tlsConfig := auth.NewTLSConfigForServer(host, !disableHostNameVerification)
 		return tlsConfig, nil
 	}
