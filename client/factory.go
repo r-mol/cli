@@ -272,7 +272,7 @@ func (b *clientFactory) createTLSConfig(c *cli.Context) (*tls.Config, error) {
 		tlsConfig := auth.NewTLSConfigForServer(host, !disableHostNameVerification)
 		return tlsConfig, nil
 	}
-	// If we are given a TLS flag, set the TLS server name from address for DNS resolution
+	// If we are given a TLS flag, set the TLS server name from the address
 	if enableTLS {
 		hostPort := c.String(common.FlagAddress)
 		if hostPort == "" {
