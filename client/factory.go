@@ -216,7 +216,7 @@ func (b *clientFactory) createTLSConfig(c *cli.Context) (*tls.Config, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unable to read TLS disable host verification flag: %w", err)
 	}
-	enableTLSS := c.String(common.FlagEnableTLS)
+	enableTLSS := c.String(common.FlagTLS)
 	enableTLS, err := strconv.ParseBool(enableTLSS)
 	if err != nil {
 		return nil, fmt.Errorf("unable to read TLS disable host verification flag: %w", err)
